@@ -1,14 +1,7 @@
-import { useQuery } from "@tanstack/react-query";
+import { trpc } from "../trpc";
 
 export function useUser(userId: number) {
-  const result = useQuery({
-    queryKey: ["user", userId],
-    queryFn: async () => {
-      const res = await fetch(`/api/user/${userId}`);
-      const user = await res.json();
-      return user;
-    },
-  });
+  const result = trpc.getUser.useQuery({ id: userId });
 
   const user = result.data;
   return user;
